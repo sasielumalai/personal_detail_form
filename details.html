@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> DETAILS </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+        }
+        form {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #007BFF;
+            font-weight: bold;
+        }
+        input, textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        input[type="radio"] {
+            width: auto;
+            margin-right: 8px;
+        }
+        input[type="text"], input[type="email"], textarea {
+            background-color: #f9f9f9;
+        }
+        button {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+<h2 style="text-align:center;"><b> DETAILS </b> </h2>
+
+<form id="myForm">
+    <label for="first_name">First Name:</label>
+    <input type="text" id="first_name" name="first_name"><br>
+
+    <label for="last_name">Last Name:</label>
+    <input type="text" id="last_name" name="last_name"><br>
+
+    <label for="phone">Phone:</label>
+    <input type="text" id="phone" name="phone"><br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email"><br>
+
+    <label for="gender">Gender:</label>
+    <input type="radio" id="male" name="gender" value="Male"> Male
+    <input type="radio" id="female" name="gender" value="Female"> Female<br>
+
+    <label for="address">Address:</label>
+    <textarea id="address" name="address"></textarea><br>
+
+    <button type="submit">Submit</button>
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        // Function to get the saved data from localStorage and set the form values
+        function populateForm() {
+            const form = document.getElementById('myForm');
+            const elements = form.elements;
+
+            for (let i = 0; i < elements.length; i++) {
+                const name = elements[i].name;
+                if (localStorage.getItem(name)) {
+                    if (elements[i].type === 'radio') {
+                        if (elements[i].value === localStorage.getItem(name)) {
+                            elements[i].checked = true;
+                        }
+                    } else {
+                        elements[i].value = localStorage.getItem(name);
+                    }
+                }
+            }
+        }
+
+        // Call the populateForm function when the page loads
+        populateForm();
+
+        // Save the form data to localStorage when the form is submitted
+        document.getElementById('myForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const form = event.target;
+            const elements = form.elements;
+
+            for (let i = 0; i < elements.length; i++) {
+                const name = elements[i].name;
+                if (name) {
+                    if (elements[i].type === 'radio' && elements[i].checked) {
+                        localStorage.setItem(name, elements[i].value);
+                    } else if (elements[i].type !== 'radio') {
+                        localStorage.setItem(name, elements[i].value);
+                    }
+                }
+            }
+
+            alert('Form submitted and values saved.');
+        });
+    });
+</script>
+
+</body>
+</html>
